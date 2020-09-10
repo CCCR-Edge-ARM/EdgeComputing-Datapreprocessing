@@ -1,7 +1,7 @@
-# Senser-Node - Rasberry Pi
+# Senser-Node - Raspberry Pi
 ### 프로젝트 내용
 - 얼굴 인식<br>
-      - Rasberry Pi 카메라 모듈로 사람의 얼굴을 인식<br>
+      - Raspberry Pi Pi 카메라 모듈로 사람의 얼굴을 인식<br>
       - 사람의 얼굴이 인식될 때 사람의 이름, 찍힌 시간 등의 데이터를 추출 후 저장
 - 열 측정<br>
       - 열 화상센서를 통해 사람의 열을 측정<br>

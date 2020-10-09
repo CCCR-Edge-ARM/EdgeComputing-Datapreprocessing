@@ -3,6 +3,7 @@ import numpy
 import cv2
 import os
 import datetime
+import pymysql
 
 # Edge Node IP Address & Port
 UDP_IP = "192.168.0.4"
@@ -65,42 +66,74 @@ while True:
 				# 얼굴 인식 될 시 온도 데이터 송신
 				data2, addr = sock2.recvfrom(1024)
 				# 수신한 온도데이터 디코딩
-				thermal=data2.decode()
+				thermal = data2.decode()
 				# 온도데이터를 문자열에서 리스트로 변환
-				thermal=thermal.split()
+				thermal = thermal.split()
 				# 문자로 변환되었던 픽셀의 온도 값들을 실수형으로 변환
-				thermal=list(map(float, thermal))
+				thermal = list(map(float, thermal))
 				# 픽셀의 온도데이터 평균 (소수점 1자리까지 표현)
-				thermal=sum(thermal, 0.0)/len(thermal)
-				thermal=round(thermal,1)
-				
-				#이름, 날짜, 장소, 온도 출력
-				print(user, thermal, datetime.datetime.now(), "guro.seoul")
+				thermal = sum(thermal, 0.0)/len(thermal)
+				thermal = round(thermal,1)
+
+				#현재시간
+				time = datetime.datetime.now()
+
+				# DB instance의 armtong db에 접속
+				db = pymysql.connect(host='192.168.0.165', port=3306, user='stack', passwd='stack', db='armtong', charset='utf8')
+
+				# SQL 실행 (TEMPERATURE 테이블 사용)
+				cursor = db.cursor()
+				sql = "select * from TEMPERATURE"
+				cursor.execute(sql)
+				# SQL 실행 (id, 측정온도, 측정시간, 측정장소를 입력)
+				sql2 = "INSERT INTO TEMPERATURE (member_idx,temperature_tem,temperature_date,temperature_location,) VALUES (%s,%s,%s,%s);"
+				cursor.execute(sql2,(id,thermal,time,"guro.seoul"))
+
+				# Connection 객체의 commit() 메서드를 사용
+				db.commit()
+				# Connection 객체의 close() 메서드를 사용하여 DB 연결 종료
+				db.close()
+
 			else:
 
 				# 저장되지 않은 사용자일 경우 unkwon으로 표시
+				id = 999
 				user = "unknown"
 				confidence = "  {0}%".format(round(100 - confidence))
 
 				# 얼굴 인식 될 시 온도 데이터 송신
 				data2, addr = sock2.recvfrom(1024)
 				# 수신한 온도데이터 디코딩
-				thermal=data2.decode()
+				thermal = data2.decode()
 				# 온도데이터를 문자열에서 리스트로 변환
-				thermal=thermal.split()
+				thermal = thermal.split()
 				# 문자로 변환되었던 픽셀의 온도 값들을 실수형으로 변환
-				thermal=list(map(float, thermal))
+				thermal = list(map(float, thermal))
 				# 픽셀의 온도데이터 평균 (소수점 1자리까지 표현)
-				thermal=sum(thermal, 0.0)/len(thermal)
-				thermal=round(thermal,1)
+				thermal = sum(thermal, 0.0)/len(thermal)
+				thermal = round(thermal,1)
+
+				#현재시간
+				time = datetime.datetime.now()
 				
-				#이름, 날짜, 장소, 온도 출력
-				print(user, thermal, datetime.datetime.now(), "guro.seoul")
+				# DB instance의 armtong db에 접속
+				db = pymysql.connect(host='192.168.0.165', port=3306, user='stack', passwd='stack', db='armtong', charset='utf8')
+
+				# SQL 실행 (TEMPERATURE 테이블 사용)
+				cursor = db.cursor()
+				sql = "select * from TEMPERATURE"
+				cursor.execute(sql)
+				# SQL 실행 (id, 측정온도, 측정시간, 측정장소를 입력)
+				sql2 = "INSERT INTO TEMPERATURE (member_idx,temperature_tem,temperature_date,temperature_location,) VALUES (%s,%s,%s,%s);"
+				cursor.execute(sql2,(id,thermal,time,"guro.seoul"))
+
+				# Connection 객체의 commit() 메서드를 사용
+				db.commit()
+				# Connection 객체의 close() 메서드를 사용하여 DB 연결 종료
+				db.close()
 
 		k = cv2.waitKey(100) & 0xff # 'ESC'를 누르면 종료
 		if k == 27:
-			break
-		elif count >= 30: #count의 수만큼 샘플 이미지 생성 후 종료
 			break
 print("\n [INFO] Exiting Program")
 

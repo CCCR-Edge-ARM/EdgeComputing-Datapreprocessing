@@ -73,8 +73,6 @@ while True:
 		k = cv2.waitKey(100) & 0xff # 'ESC'를 누르면 종료
 		if k == 27:
 			break
-		elif count >= 30: #count의 수만큼 샘플 이미지 생성 후 종료
-			break
 print("\n [INFO] Exiting Program")
 
 

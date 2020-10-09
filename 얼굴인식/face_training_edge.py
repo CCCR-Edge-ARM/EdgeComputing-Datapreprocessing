@@ -3,12 +3,12 @@ import numpy as np
 from PIL import Image
 import os
 
-# Path for face image database
+# 샘플 이미지 저장 디렉토리 설정
 path = 'dataset'
 recognizer = cv2.face.LBPHFaceRecognizer_create()
 detector = cv2.CascadeClassifier("haarcascades/haarcascade_frontalface_default.xml");
 
-# function to get the images and label data
+# 얼굴 샘플파일로 라벨링 작업
 def getImagesAndLabels(path):
     imagePaths = [os.path.join(path,f) for f in os.listdir(path)]     
     faceSamples=[]
@@ -26,9 +26,7 @@ print ("\n [INFO] Training faces. It will take a few seconds. Wait ...")
 faces,ids = getImagesAndLabels(path)
 recognizer.train(faces, np.array(ids))
 
-# Save the model into trainer/trainer.yml
+# 생생된 모델을 저장
 recognizer.write('trainer/trainer.yml') # recognizer.save() worked on Mac, but not on Pi
 # print the numer of faces trained and end program
 print("\n [INFO] {0} faces trained. Exiting Program".format(len(np.unique(ids))))
-
-

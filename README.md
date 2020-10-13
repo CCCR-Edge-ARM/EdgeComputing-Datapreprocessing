@@ -1,6 +1,6 @@
 # EdgeComputing-Datapreprocessing
 - EdgeComputing의 데이터 프로세싱 개발 및 운영 스터디를 위한 저장소입니다.
-- 가세한 프로젝트 프로젝트 진행 사항은 [Wiki](https://github.com/CCCR-Edge-ARM/EdgeComputing-Datapreprocessing/wiki)에 작성됩니다.
+- 자세한 프로젝트 프로젝트 내용 및 진행 사항은 [Wiki](https://github.com/CCCR-Edge-ARM/EdgeComputing-Datapreprocessing/wiki)에 작성됩니다.
 
 <br>
 

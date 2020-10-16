@@ -3,6 +3,7 @@ import numpy
 import cv2
 import os
 import datetime
+from time import sleep
 import pymysql
 
 # Edge Node IP Address & Port
@@ -36,8 +37,8 @@ while True:
 	picture = b''
 	
 	# 분할된 데이터 수신
-	data, addr = sock.recvfrom(46081)
-	s[data[0]] = data[1:46081]
+       	data, addr = sock.recvfrom(46081)
+        	s[data[0]] = data[1:46081]
 
 	# 분할된 데이터를 다시 합쳐서 이미지로 변환
 	if data[0] == 19:
@@ -51,7 +52,6 @@ while True:
 		faces = faceCascade.detectMultiScale( 
 			gray,
 			scaleFactor = 1.2,
-			minNeighbors = 5,
 			#minSize = (int(minW), int(minH)),
 			)
 		for(x,y,w,h) in faces:
@@ -76,19 +76,21 @@ while True:
 				thermal = round(thermal,1)
 
 				#현재시간
-				time = datetime.datetime.now()
+                                		now=datetime.datetime.now()
+                               		date=now.strftime('%Y-%m-%d')
+                               		time=now.strftime('%H:%M:%S')
 
 				# DB instance의 armtong db에 접속
-				db = pymysql.connect(host='192.168.0.165', port=3306, user='stack', passwd='stack', db='armtong', charset='utf8')
+				db = pymysql.connect(host='192.168.0.136', port=3306, user='stack', passwd='stack', db='armtong_proj', charset='utf8')
+                               		cursor = db.cursor()
 
 				# SQL 실행 (TEMPERATURE 테이블 사용)
 				cursor = db.cursor()
 				sql = "select * from TEMPERATURE"
 				cursor.execute(sql)
 				# SQL 실행 (id, 측정온도, 측정시간, 측정장소를 입력)
-				sql2 = "INSERT INTO TEMPERATURE (member_idx,temperature_tem,temperature_date,temperature_location,) VALUES (%s,%s,%s,%s);"
-				cursor.execute(sql2,(id,thermal,time,"guro.seoul"))
-
+				sql2 = "INSERT INTO TEMPERATURE (member_idx,temperature_tem,temperature_date,temperature_time,temperature_location) VALUES (%s, %s, %s, %s, 'guro.seoul');"
+                                		cursor.execute(sql2, (id, thermal, date, time))
 				# Connection 객체의 commit() 메서드를 사용
 				db.commit()
 				# Connection 객체의 close() 메서드를 사용하여 DB 연결 종료
@@ -114,19 +116,21 @@ while True:
 				thermal = round(thermal,1)
 
 				#현재시간
-				time = datetime.datetime.now()
-				
+                                		now=datetime.datetime.now()
+                               		date=now.strftime('%Y-%m-%d')
+                               		time=now.strftime('%H:%M:%S')
+
 				# DB instance의 armtong db에 접속
-				db = pymysql.connect(host='192.168.0.165', port=3306, user='stack', passwd='stack', db='armtong', charset='utf8')
+				db = pymysql.connect(host='192.168.0.136', port=3306, user='stack', passwd='stack', db='armtong_proj', charset='utf8')
+                               		cursor = db.cursor()
 
 				# SQL 실행 (TEMPERATURE 테이블 사용)
 				cursor = db.cursor()
 				sql = "select * from TEMPERATURE"
 				cursor.execute(sql)
 				# SQL 실행 (id, 측정온도, 측정시간, 측정장소를 입력)
-				sql2 = "INSERT INTO TEMPERATURE (member_idx,temperature_tem,temperature_date,temperature_location,) VALUES (%s,%s,%s,%s);"
-				cursor.execute(sql2,(id,thermal,time,"guro.seoul"))
-
+				sql2 = "INSERT INTO TEMPERATURE (member_idx,temperature_tem,temperature_date,temperature_time,temperature_location) VALUES (%s, %s, %s, %s, 'guro.seoul');"
+                                		cursor.execute(sql2, (id, thermal, date, time))
 				# Connection 객체의 commit() 메서드를 사용
 				db.commit()
 				# Connection 객체의 close() 메서드를 사용하여 DB 연결 종료

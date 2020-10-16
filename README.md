@@ -1,3 +1,9 @@
+# EdgeComputing-Datapreprocessing
+- EdgeComputing의 데이터 프로세싱 개발 및 운영 스터디를 위한 저장소입니다.
+- 자세한 프로젝트 프로젝트 내용 및 진행 사항은 [Wiki](https://github.com/CCCR-Edge-ARM/EdgeComputing-Datapreprocessing/wiki)에 작성됩니다.
+
+<br>
+
 ## Senser-Node - Raspberry Pi
 ### 프로젝트 내용
 - 얼굴 인식<br>
@@ -6,6 +12,8 @@
 - 열 측정<br>
       - 열 화상센서를 통해 사람의 열을 측정<br>
       - 카메라 모듈과 연동하여 인식된 사람의 열 데이터도 같이 저장
+      
+<br>      
 
 ## EdgeNode-Vraptor
 ### 프로젝트 내용

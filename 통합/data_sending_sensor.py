@@ -17,9 +17,24 @@ cap = cv2.VideoCapture(0)
 cap.set(3, 640) # 영상의 크기(넓이)
 cap.set(4, 480) # 영상의 크기(높이)
 
-while True:
+sensor = Adafruit_AMG88xx()
 
-	# 영상데이터를 frame에 저장
+while True:
+	
+    # 온도 데이터 저장(픽셀의 온도값들이 리스트로 저장)
+    list_thermal = sensor.readPixels()
+	
+    # 픽셀의 온도값을 실수형에서 문자로 변환
+    for i in range(len(list_thermal)):
+        list_thermal[i]=str(list_thermal[i])
+	
+    # 온도 데이터를 리스트에서 문자열로 변환
+    thermal = (' '.join(list_thermal))
+	
+    # 온도 테이터 송신(문자열을 인코딩해야 송신가능)
+    sock2.sendto(thermal.encode(),(UDP_IP,UDP_PORT))
+
+    # 영상데이터를 frame에 저장
     ret, frame = cap.read()
 
     # 상하 반전
@@ -30,19 +45,6 @@ while True:
 
     # 영상 출력
     cv2.imshow('camera', frame)
-
-    # 온도 데이터 저장(픽셀의 온도값들이 리스트로 저장)
-    list_thermal = sensor.readPixels()
-
-    # 픽셀의 온도값을 실수형에서 문자로 변환
-    for i in range(len(list_thermal)):
-        list_thermal[i]=str(list_thermal[i])
-
-    # 온도 데이터를 리스트에서 문자열로 변환
-    thermal = (' '.join(list_thermal))
-
-    # 온도 테이터 송신(문자열을 인코딩해야 송신가능)
-    sock2.sendto(thermal.encode(),(UDP_IP,UDP_PORT))
 
     # 분할된 데이터 송신
     for i in range(20):

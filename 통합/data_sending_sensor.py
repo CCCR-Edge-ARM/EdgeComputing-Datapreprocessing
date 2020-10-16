@@ -11,8 +11,6 @@ UDP_PORT2 = 9506
 # UDP 프로토콜 소켓 통신
 sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 sock2 = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-sock.bind((UDP_IP, UDP_PORT))
-sock2.bind((UDP_IP, UDP_PORT2))
 
 # 카메라 모듈의 영상테이터 
 cap = cv2.VideoCapture(0)

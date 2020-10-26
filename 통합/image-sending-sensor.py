@@ -60,6 +60,7 @@ while True:
     # 영상 출력
     cv2.imshow('camera', frame)
 
+    # UDP는 한번에 데이터를 65,535 Byte 까지 전송가능 - 영상데이터 분할 전송이 필요함
     # 분할된 데이터 송신 (데이터의 크기 = 640(영상 너비)*480(영상 높이)*3(RGB)/20(분할 수) = 46080)
     for i in range(20):
         sock.sendto(bytes([i]) + s[i*46080:(i+1)*46080], (UDP_IP, UDP_PORT))

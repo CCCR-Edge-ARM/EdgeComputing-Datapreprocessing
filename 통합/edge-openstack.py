@@ -17,7 +17,7 @@ sock2 = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 sock.bind((UDP_IP, UDP_PORT))
 sock2.bind((UDP_IP, UDP_PORT2))
 
-# 영상 분할을 저장하기 위한 리스트 생성
+# 분할 영상 데이터를 저장하기 위한 리스트 생성
 s = [b'\xff' * 46080 for x in range(20)]
 
 # 얼굴인식 객체 및 학습파일 참조

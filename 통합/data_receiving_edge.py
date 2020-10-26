@@ -31,7 +31,7 @@ font = cv2.FONT_HERSHEY_SIMPLEX
 id = 0
 
 # id에 저장할 사용자 설정: example ==> loze: id=1,  etc
-names = ['HSH', 'HS', 'HWJ', 'chs', 'ksw']
+names = ['0', 'HS', 'HWJ', 'HSH', 'FUNFUN']
 
 while True:        
 	picture = b''
@@ -52,7 +52,6 @@ while True:
 		faces = faceCascade.detectMultiScale( 
 			gray,
 			scaleFactor = 1.2,
-			#minSize = (int(minW), int(minH)),
 			)
 		for(x,y,w,h) in faces:
 			cv2.rectangle(frame, (x,y), (x+w,y+h), (0,255,0), 2)
@@ -75,13 +74,15 @@ while True:
 				thermal = sum(thermal, 0.0)/len(thermal)
 				thermal = round(thermal,1)
 
-				#현재시간
+				# 현재시간
                                 now=datetime.datetime.now()
+				# 날짜 저장
                                	date=now.strftime('%Y-%m-%d')
+				# 시간 저장
                                	time=now.strftime('%H:%M:%S')
 
 				# DB instance의 armtong db에 접속
-				db = pymysql.connect(host='192.168.0.136', port=3306, user='stack', passwd='stack', db='armtong_proj', charset='utf8')
+				db = pymysql.connect(host='192.168.0.150', port=3306, user='stack', passwd='stack', db='armtong_proj', charset='utf8')
                                	cursor = db.cursor()
 
 				# SQL 실행 (TEMPERATURE 테이블 사용)
@@ -115,14 +116,16 @@ while True:
 				thermal = sum(thermal, 0.0)/len(thermal)
 				thermal = round(thermal,1)
 
-				#현재시간
-                                		now=datetime.datetime.now()
-                               		date=now.strftime('%Y-%m-%d')
-                               		time=now.strftime('%H:%M:%S')
+				# 현재시간
+                                now=datetime.datetime.now()
+				# 날짜 저장
+                               	date=now.strftime('%Y-%m-%d')
+				# 시간 저장
+                               	time=now.strftime('%H:%M:%S')
 
 				# DB instance의 armtong db에 접속
-				db = pymysql.connect(host='192.168.0.136', port=3306, user='stack', passwd='stack', db='armtong_proj', charset='utf8')
-                               		cursor = db.cursor()
+				db = pymysql.connect(host='192.168.0.150', port=3306, user='stack', passwd='stack', db='armtong_proj', charset='utf8')
+                               	cursor = db.cursor()
 
 				# SQL 실행 (TEMPERATURE 테이블 사용)
 				cursor = db.cursor()
@@ -130,7 +133,7 @@ while True:
 				cursor.execute(sql)
 				# SQL 실행 (id, 측정온도, 측정시간, 측정장소를 입력)
 				sql2 = "INSERT INTO TEMPERATURE (member_idx,temperature_tem,temperature_date,temperature_time,temperature_location) VALUES (%s, %s, %s, %s, 'guro.seoul');"
-                                		cursor.execute(sql2, (id, thermal, date, time))
+                                cursor.execute(sql2, (id, thermal, date, time))
 				# Connection 객체의 commit() 메서드를 사용
 				db.commit()
 				# Connection 객체의 close() 메서드를 사용하여 DB 연결 종료

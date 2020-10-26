@@ -13,7 +13,7 @@ sensor = Adafruit_AMG88xx()
 
 while(1):
 
-	# 온도 데이터 저장(픽셀의 온도값들이 리스트로 저장)
+    # 온도 데이터 저장(픽셀의 온도값들이 리스트로 저장)
     list_thermal = sensor.readPixels()
 
     # 픽셀의 온도값을 실수형에서 문자로 변환
